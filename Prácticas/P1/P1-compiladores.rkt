@@ -70,4 +70,39 @@
                              (leaf t)
                              (node t (leaf (car prime-list)) (build-tree (/ t (car prime-list)) (cdr prime-list)))))])
     (build-tree n (prime-fac n))))
+;; 6 Punto extra
 
+(define (is-perfect tree)
+  (cond
+    [(and (null? (node-left tree)) (null? (node-left tree))) true]
+    [(and (not (null? (node-left tree))) (not(null? (node-left tree)))) (and (is-perfect (node-left tree)) (is-perfect (node-right tree)))]
+    [(or (not (null? (node-left tree))) (not(null? (node-left tree)))) false]))
+
+;; 5. Arboles leafy
+
+; one-depth-tree : number ->  tree
+(define (one-depth-tree type)
+  (cond
+    [(= type 0) (leaf "'leaf")]
+    [(= type 1) (node null (leaf "'leaf") null)]
+    [(= type 2) (node null  null (leaf "'leaf"))]
+    [(= type 3) (node null  (leaf "'leaf") (leaf "'leaf"))]
+    ))
+
+(define (all-combinations depth)
+  (cond
+    [(= depth 0) '()]
+    [(= depth 1) (list (one-depth-tree 0))]
+    [(= depth 2) (list (one-depth-tree 0) (one-depth-tree 1) (one-depth-tree 2) (one-depth-tree 3))]
+    [else (let ([tree1 (leaf "'leaf")]) (remove-duplicates(flatten(list (combinations  (tree1 tree1 depth) (all-combinations (- depth 1)))))))]))
+
+(define (combinations original-tree tree n)
+  (cond
+    [(= n 0) '()]
+    [(=(node-value tree) null) (cond
+                                  [((null? (node-left tree)) (list (combinations original-tree (node-right tree (- n 1)))))]
+                                  [((null? (node-right tree)) (list (combinations original-tree (node-left tree (- n 1)))))]
+                                  [else (remove-duplicates (flatten '((combinations original-tree (node-right tree) (- n 1)) (combinations original-tree (node-left tree n-1)))))]
+                                  )]
+    [else (let () '())]
+    ))
