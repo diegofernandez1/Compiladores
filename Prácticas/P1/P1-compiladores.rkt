@@ -72,34 +72,40 @@
     (build-tree n (prime-fac n))))
 
 
-;; 5. Arboles leafy
+;; 5. Arboles Leafy
 
-; all-leafy-full : number ->  tree
+;; Método que devuelve la lista con las combinaciones de los árboles leafy completos de a lo más n de profundidad
+; combinations : number -> list
+(define (combinations n)
+  (cond
+    [(= n 0) (leaf "'leaf")]
+    [else (flatten(list (all-leafy-full n) (combinations (- n 1))))]))
+
+;; Auxilar para crear los árboles Leafy llenos
+
+; c : number ->  tree
 (define (all-leafy-full n)
   (cond
     [(= n 0) (leaf "'leaf")]
     [(= n 1) (node null  (leaf "'leaf") (leaf "'leaf"))]
     [else (node null (all-leafy-full (- n 1)) (all-leafy-full (- n 1)))]))
 
-
-; combinations : number -> list
-(define (combinations n)
-  (cond
-    [(= n 0) '()]
-    [else (flatten(list (all-leafy-full n) (combinations (- n 1))))]))
-
 ;; 6 Punto extra
 
+;; Auxiliar que calcula la profundidad de un árbol por la izquierda
 ; tree-depth-left : tree -> number
 (define (tree-depth-left tree)
   (if (leaf? tree) 
       0
       (+ 1 (tree-depth-left (node-left tree)))))
 
+
+;;Método que organiza la llamada al método recursivo
 ; is-perfect : tree -> boolean
 (define (is-perfect tree )
   (is-perfect-rec tree 0 (tree-depth-left tree)))
 
+;;Método recursivo que verifica si un árbol es perfecto o no
 ; is-perfect-rec : tree number number -> boolean
 (define (is-perfect-rec tree level depth)
   (cond
