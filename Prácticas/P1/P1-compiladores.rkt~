@@ -70,41 +70,39 @@
                              (leaf t)
                              (node t (leaf (car prime-list)) (build-tree (/ t (car prime-list)) (cdr prime-list)))))])
     (build-tree n (prime-fac n))))
+;; 6 Punto extra
 
+(define (is-perfect tree)
+  (cond
+    [(and (null? (node-left tree)) (null? (node-left tree))) true]
+    [(and (not (null? (node-left tree))) (not(null? (node-left tree)))) (and (is-perfect (node-left tree)) (is-perfect (node-right tree)))]
+    [(or (not (null? (node-left tree))) (not(null? (node-left tree)))) false]))
 
 ;; 5. Arboles leafy
 
-; all-leafy-full : number ->  tree
-(define (all-leafy-full n)
+; one-depth-tree : number ->  tree
+(define (one-depth-tree type)
   (cond
-    [(= n 0) (leaf "'leaf")]
-    [(= n 1) (node null  (leaf "'leaf") (leaf "'leaf"))]
-    [else (node null (all-leafy-full (- n 1)) (all-leafy-full (- n 1)))]))
+    [(= type 0) (leaf "'leaf")]
+    [(= type 1) (node null (leaf "'leaf") null)]
+    [(= type 2) (node null  null (leaf "'leaf"))]
+    [(= type 3) (node null  (leaf "'leaf") (leaf "'leaf"))]
+    ))
 
+(define (all-combinations depth)
+  (cond
+    [(= depth 0) '()]
+    [(= depth 1) (list (one-depth-tree 0))]
+    [(= depth 2) (list (one-depth-tree 0) (one-depth-tree 1) (one-depth-tree 2) (one-depth-tree 3))]
+    [else (let ([tree1 (leaf "'leaf")]) (remove-duplicates(flatten(list (combinations  (tree1 tree1 depth) (all-combinations (- depth 1)))))))]))
 
-; combinations : number -> list
-(define (combinations n)
+(define (combinations original-tree tree n)
   (cond
     [(= n 0) '()]
-    [else (flatten(list (all-leafy-full n) (combinations (- n 1))))]))
-
-;; 6 Punto extra
-
-; tree-depth-left : tree -> number
-(define (tree-depth-left tree)
-  (if (leaf? tree) 
-      0
-      (+ 1 (tree-depth-left (node-left tree)))))
-
-; is-perfect : tree -> boolean
-(define (is-perfect tree )
-  (is-perfect-rec tree 0 (tree-depth-left tree)))
-
-; is-perfect-rec : tree number number -> boolean
-(define (is-perfect-rec tree level depth)
-  (cond
-    [(leaf? tree) (equal? depth level )]
-    [(or (null? (node-left tree)) (null? (node-right tree))) false]
-    [else (and (is-perfect-rec (node-left tree) (+ level 1) depth) (is-perfect-rec (node-right tree) (+ level 1) depth))]))
-
-
+    [(=(node-value tree) null) (cond
+                                  [((null? (node-left tree)) (list (combinations original-tree (node-right tree (- n 1)))))]
+                                  [((null? (node-right tree)) (list (combinations original-tree (node-left tree (- n 1)))))]
+                                  [else (remove-duplicates (flatten '((combinations original-tree (node-right tree) (- n 1)) (combinations original-tree (node-left tree n-1)))))]
+                                  )]
+    [else (let () '())]
+    ))
