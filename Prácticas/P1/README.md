@@ -3,6 +3,7 @@
 ## Integrantes 
 
 - Diego Marcial Fenrández Del Valle 314198039 
+- Rodrigo Alvar Reyna Trejo 312196785
 -  
 ## Ejercicio 5
 
