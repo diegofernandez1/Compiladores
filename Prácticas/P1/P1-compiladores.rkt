@@ -78,7 +78,7 @@
 ; combinations : number -> list
 (define (combinations n)
   (cond
-    [(= n 0) (leaf "'leaf")]
+    [(= n 0) (list(leaf "'leaf"))]
     [else (flatten(list (all-leafy-full n) (combinations (- n 1))))]))
 
 ;; Auxilar para crear los árboles Leafy llenos
