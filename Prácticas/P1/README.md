@@ -2,8 +2,9 @@
 
 ## Integrantes 
 
-- Diego Marcial Fenrández Del Valle 314198039 
--  
+- Diego Marcial Fenrández Del Valle - 314198039 
+- Fhernanda Montserrat Romo Olea - 314284286
+- Rodrigo Alvar Reyna Trejo - 312196785  
 ## Ejercicio 5
 
 ### Algoritmo
