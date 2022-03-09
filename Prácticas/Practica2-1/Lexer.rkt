@@ -11,6 +11,11 @@
 ;de fase relevante dentro del módulo de exportación, y que tienen el mismo contexto léxico
 
 (define-tokens a (NUM VAR BOOL TYPE))
+;; NUM = valores numéricos
+;; Var = variables
+;; Bool = Valores booleanos
+;; Type = Para algún tipo
+
 (define-empty-tokens b (LP RP LCB RCB LRB RRB : + - * / => = AND OR EOF IF THEN ELSE FUN FUNF LET IN END APP))
 ;; LP = left parenthesis
 ;; RP = right parenthesis
@@ -148,11 +153,16 @@
 
              ))
 
+;; Recibe una cadena string con el tipo y devuelve su símbolo correspondiente
 (define (match-type n)
   (match n
     ["Int" 'Int]
     ["Bool" 'Bool]
     ["Func" 'Func]))
+
+;;MinHS call, tal y como viene en el pdf de la práctica
+(define (minHS-lexer s)
+  (calc-lexer s))
 
 (define-struct arith-exp (op e1 e2) #:transparent)
 (define-struct num-exp (n) #:transparent)
